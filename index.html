@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>TRESPASS — which bots came in, and which you told to stay out</title>
+<meta name="description" content="Drop your access log. See every bot that visited, which ones are impostors, which ignored your robots.txt — with the exact requests — and what they cost. It never leaves your browser.">
+<meta property="og:title" content="TRESPASS — the bot lineup for your site">
+<meta property="og:description" content="Which AI crawler ignored your robots.txt? Which “GPTBot” wasn’t? Drop your access log and see the lineup.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23111'/%3E%3Cpath d='M0 26h32M0 20h32M0 14h32M0 8h32' stroke='%23555'/%3E%3Crect x='10' y='6' width='12' height='26' fill='%23e8e6df'/%3E%3Crect x='7' y='18' width='18' height='8' fill='%23d22'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="top">
+  <div class="brand"><span class="logo">TRESPASS</span><span class="tag">which bots came in — and which you told to stay out</span></div>
+  <a class="src" href="https://github.com/nickzsche21/trespass">source</a>
+</header>
+
+<main>
+  <section class="intake">
+    <div class="intro">
+      <h1>Every bot that visited your site, in one lineup.</h1>
+      <p>Drop your access log. TRESPASS names the AI crawlers, checks the ones that publish their addresses against those addresses — so a fake GPTBot shows up as a fake — and checks every request against your robots.txt. You get the exact lines, the bandwidth bill, and the block rules.</p>
+      <p class="private">Your log never leaves this tab. There is no server: the whole thing runs in your browser.</p>
+    </div>
+    <div class="inputs">
+      <label id="drop" class="drop">
+        <input id="picker" type="file" accept=".log,.txt,.gz,.json,.jsonl,text/plain,application/gzip" hidden>
+        <strong>Drop an access log here</strong>
+        <span>or click to choose · .log or .gz · nginx / Apache, Cloudflare, Caddy, Vercel JSON</span>
+      </label>
+      <details class="paste-box"><summary>…or paste some lines</summary>
+        <textarea id="paste" rows="5" spellcheck="false" placeholder='203.0.113.9 - - [13/Oct/2026:09:15:02 +0000] "GET / HTTP/1.1" 200 5123 "-" "Mozilla/5.0 ..."'></textarea>
+        <button id="paste-go" class="btn">Read these lines</button>
+      </details>
+      <div class="row2">
+        <label class="robots-label">Your robots.txt
+          <textarea id="robots" rows="7" spellcheck="false" placeholder="User-agent: *&#10;Disallow: /private/"></textarea>
+        </label>
+        <div>
+          <label class="pergb">Egress price <span>$</span><input id="pergb" type="number" value="0.09" step="0.01" min="0"> <span>per GB</span></label>
+          <div id="robots-notes" class="robots-notes"></div>
+          <button id="sample" class="btn ghost">Show the sample day again</button>
+        </div>
+      </div>
+      <p id="status" class="status" aria-live="polite"></p>
+    </div>
+  </section>
+
+  <section id="results" hidden>
+    <div id="summary" class="summary"></div>
+    <div class="timeline-wrap"><div id="timeline" class="timeline"></div><p id="timeline-label" class="muted small"></p></div>
+
+    <h2 class="sec">The lineup</h2>
+    <p class="muted">Height is requests, on a log scale. Red placard: someone using a crawler’s name from outside its operator’s published addresses. Stamp: ignored your robots.txt. Click anyone for their file.</p>
+    <div id="wall" class="wall"></div>
+
+    <section id="file" class="file"></section>
+
+    <h2 class="sec">Everyone else</h2>
+    <div id="others" class="others"></div>
+
+    <h2 class="sec">Lock the doors</h2>
+    <div id="fixes" class="fixes"></div>
+  </section>
+
+  <section class="how">
+    <div>
+      <h3>How a bot is named</h3>
+      <p>By its User-Agent, against the open <a href="https://github.com/ai-robots-txt/ai.robots.txt">ai.robots.txt</a> list of AI agents and a list of search engines, previewers, SEO crawlers and HTTP libraries. A name is a claim, not proof — which is the next part.</p>
+    </div>
+    <div>
+      <h3>How a name is checked</h3>
+      <p>OpenAI, Google, Microsoft, Perplexity, Apple, Common Crawl and DuckDuckGo publish the addresses their crawlers use. A request that claims one of those names from outside its list is an impostor. Anthropic, Meta, ByteDance and most others publish no list, so their requests are marked unverifiable — not innocent, not guilty.</p>
+    </div>
+    <div>
+      <h3>How trespass is judged</h3>
+      <p>By RFC 9309: the group naming the crawler applies, otherwise <code>*</code>; the longest matching rule wins. A named group <em>replaces</em> <code>*</code> — the commonest robots.txt surprise, and it’s flagged. It uses the robots.txt you paste today; rules that changed mid-log can’t be known.</p>
+    </div>
+  </section>
+  <p id="credits" class="credits muted small"></p>
+</main>
+<footer>MIT · <a href="https://github.com/nickzsche21/trespass">github.com/nickzsche21/trespass</a> · Prompted by “I posted to HN, and then my website was flooded with AI bot traffic” (Oct 2026).</footer>
+<script src="app.js"></script>
+</body>
+</html>

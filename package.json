@@ -1,0 +1,10 @@
+{
+  "name": "trespass", "version": "0.1.0", "private": true,
+  "scripts": {
+    "data": "node scripts/build-data.mjs",
+    "build": "tsx scripts/build.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx src/core.test.ts"
+  },
+  "devDependencies": { "@types/node": "^20", "esbuild": "^0.25.0", "tsx": "^4.23.13", "typescript": "^5" }
+}
