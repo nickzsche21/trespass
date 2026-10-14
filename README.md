@@ -10,7 +10,7 @@ bots in your log.
 **Your log never leaves the browser.** There is no server: parsing runs in a Web Worker in your tab,
 gzipped logs included.
 
-**Live:** (deploying)
+**Live:** https://trespass-theta.vercel.app
 
 ---
 
